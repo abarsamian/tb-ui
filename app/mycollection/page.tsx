@@ -15,7 +15,7 @@ export default function MyCollection() {
       {/* List of Items */}
       <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {items.map((item) => (
-              <div key={item.id} className="border border-gray-300 rounded-lg p-4 shadow-sm bg-white">
+              <div key={item.id} className="border border-gray-300 rounded-lg p-4 shadow-sm">
             <strong className="block text-lg">{item.name}</strong>
             <span className="text-gray-600">{item.category}</span>
           </div>
