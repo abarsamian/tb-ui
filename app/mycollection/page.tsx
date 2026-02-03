@@ -13,11 +13,12 @@ export default function MyCollection() {
       </p>
 
       {/* List of Items */}
-      <ul className="mt-6 space-y-2">
+      <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {items.map((item) => (
-              <li key={item.id} className="border p-3 rounded">
-            <strong>{item.name}</strong> - {item.category}
-          </li>
+              <div key={item.id} className="border border-gray-300 rounded-lg p-4 shadow-sm bg-white">
+            <strong className="block text-lg">{item.name}</strong>
+            <span className="text-gray-600">{item.category}</span>
+          </div>
         ))}
         
         </ul>
