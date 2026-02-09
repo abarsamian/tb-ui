@@ -45,7 +45,7 @@ export default function AddItemPage(){
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border p-2 w-full rounded"
+          className="border border-gray-300 p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select Category</option>
           <option>Furniture</option>
