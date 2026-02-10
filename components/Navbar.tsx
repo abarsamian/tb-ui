@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Navbar() {
   return (
 
-    <nav className="bg-black text-white p-4 flex flex-wrap items-center gap-6">
+    <nav className="bg-gradient-to-r from-violet-950 via-purple-950 to-gray-900 shadow-lg text-white p-4 flex flex-wrap items-center gap-6">
       
       <span className="font-extrabold text-4xl">ThriftBooks</span>
     
