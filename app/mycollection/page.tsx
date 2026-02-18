@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function MyCollection() {
   //mock items
-    const items = [
-    { id: 1, name: "Vintage Lamp", category: "Furniture" },
-    { id: 2, name: "Gold Necklace", category: "Jewelry" },
-    { id: 3, name: "Denim Jacket", category: "Clothing" },
-  ];
+const items = [
+  { id: 1, name: "Vintage Lamp", category: "Furniture", price: 12, condition: "Good" },
+  { id: 2, name: "Gold Necklace", category: "Jewelry", price: 45, condition: "Excellent" },
+  { id: 3, name: "Denim Jacket", category: "Clothing", price: 25, condition: "Fair" },
+];
   //set search variables to blank
   const[search, setSearch] = useState("");
   const[filterCategory, setFilterCategory] = useState("");
@@ -72,6 +73,9 @@ export default function MyCollection() {
           <div>
             <strong className="block">{item.name}</strong>
             <p className="text-sm text-gray-500">{item.category}</p>
+          <Link href={`/item/${item.id}`} className="bg-gray-700 text-xs text-white px-2 py-1 rounded-xs hover:bg-purple-700 inline-block">
+            View Details
+          </Link>
           </div>
         </div>
 
