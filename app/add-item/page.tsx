@@ -31,7 +31,8 @@ export default function AddItemPage(){
 
   return (
     <main className="container mx-auto mt-10 p-4 max-w-md">
-      <h1 className="text-2xl font-bold mb-4">Add Item</h1>
+      <div className="bg-gray-900 border border-gray-700 rounded-xl p-8 w-full max-w-lg shadow-lg">
+      <h1 className="text-3xl font-bold mt-6 mb-6 text-center">Add Item</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -45,7 +46,7 @@ export default function AddItemPage(){
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 p-2 rounded-md bg-black font-semibold text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select Category</option>
           <option>Furniture</option>
@@ -66,11 +67,15 @@ export default function AddItemPage(){
           <p className="text-red-500 text-sm">{error}</p>
         )}
 
-        <button className="bg-blue-600 text-white p-2 rounded w-full">
+        <button className="bg-blue-600 hover:bg-purple-700 text-white p-2 rounded w-full">
           Add Item
         </button>
 
+      
+
       </form>
+         </div>
     </main>
+   
   );
 }
