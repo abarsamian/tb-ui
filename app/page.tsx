@@ -1,10 +1,19 @@
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export default async function Home() {
+
+  {/*TESTING DATABASE*/}
+  const { data, error } = await supabase.from("Items").select("*");
+
+console.log("DATA:", data);
+console.log("ERROR:", error);
+
+
   return (
     <div className="text-white">
 
-      {/* HERO SECTION */}
+      {/* HOME SECTION */}
       <section className="bg-black py-28 text-center px-4">
         <h1 className="text-5xl font-extrabold mb-4">
           ThriftBooks
