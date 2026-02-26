@@ -3,11 +3,6 @@ import { supabase } from "@/lib/supabase";
 
 export default async function Home() {
 
-  {/*TESTING DATABASE*/}
-  const { data, error } = await supabase.from("Items").select("*");
-
-console.log("DATA:", data);
-console.log("ERROR:", error);
 
 
   return (

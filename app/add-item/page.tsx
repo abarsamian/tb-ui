@@ -1,14 +1,16 @@
 "use client";
-
+import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 
 export default function AddItemPage(){
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
+  const [condition, setCondition] = useState("");
+  const [userNotes, setUserNotes] = useState("");
   const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
     if (!itemName.trim()) {
@@ -26,8 +28,30 @@ export default function AddItemPage(){
     }
 
     setError("");
-    alert("Form valid — frontend only");
-  }
+
+  const {data, error: insertError} = await supabase.from("items").insert([
+  {
+    item_name: itemName,
+    category: category,
+    price_paid: Number(price),
+    condition: condition,
+  },
+]);
+
+      if (insertError) {
+    console.log("Insert error:", insertError);
+    setError(insertError.message);
+    return;
+    }   else {
+      alert("Item added successfully!");
+      setItemName("");
+      setCategory("");
+      setPrice("");
+      setCondition("");
+      setUserNotes("");
+    }
+  };
+  
 
   return (
     <main className="container mx-auto mt-10 p-4 max-w-md">
@@ -61,6 +85,21 @@ export default function AddItemPage(){
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Price Paid"
           className="border p-2 w-full rounded"
+        />
+
+                <input
+          value={condition}
+          onChange={(e) => setCondition(e.target.value)}
+          placeholder="Condition"
+          className="border p-2 w-full rounded"
+        />
+
+                <textarea
+            value={userNotes}
+            onChange={(e) => setUserNotes(e.target.value)}
+            placeholder="User Notes"
+            className="border p-2 w-full rounded"
+            rows={3}
         />
 
         {error && (
