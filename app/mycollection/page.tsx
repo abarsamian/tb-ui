@@ -1,22 +1,39 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 export default function MyCollection() {
-  //mock items
-const items = [
-  { id: 1, name: "Vintage Lamp", category: "Furniture", price: 12, condition: "Good" },
-  { id: 2, name: "Gold Necklace", category: "Jewelry", price: 45, condition: "Excellent" },
-  { id: 3, name: "Denim Jacket", category: "Clothing", price: 25, condition: "Fair" },
-];
-  //set search variables to blank
-  const[search, setSearch] = useState("");
-  const[filterCategory, setFilterCategory] = useState("");
+
+  //STATE STUFF
+  //store items from database
+const [items, setItems] = useState<any[]>([]);
+//set search variables to blank
+const[search, setSearch] = useState("");
+const[filterCategory, setFilterCategory] = useState("");
+
+  //fetch items from Supabase when page loads
+  useEffect(() => {
+    const fetchItems = async () => {
+      const { data, error } = await supabase
+        .from("items")
+        .select("*");
+
+      if (error) {
+        console.error("Error fetching items:", error);
+      } else {
+        setItems(data || []);
+      }
+    };
+
+    fetchItems();
+  }, []);
 
   //filter items section-- makes sure its case insensitive and finds what user is looking for
   const filteredItems = items.filter((item) => {
   const matchesSearch =
-    item.name.toLowerCase().includes(search.toLowerCase());
+    item.item_name.toLowerCase().includes(search.toLowerCase());
 
   const matchesCategory =
     !filterCategory || item.category === filterCategory;
@@ -71,7 +88,7 @@ const items = [
             />
 
           <div>
-            <strong className="block">{item.name}</strong>
+            <strong className="block">{item.item_name}</strong>
             <p className="text-sm text-gray-500">{item.category}</p>
           <Link href={`/item/${item.id}`} className="bg-gray-700 text-xs text-white px-2 py-1 rounded-xs hover:bg-purple-700 inline-block">
             View Details
