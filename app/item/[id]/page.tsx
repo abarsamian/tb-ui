@@ -1,3 +1,4 @@
+import { supabase } from "@/lib/supabase"
 import Link from "next/link";
 
 export default async function ItemDetailPage({
@@ -5,19 +6,20 @@ export default async function ItemDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+
+  //wait for extracted item id and set it to variable
   const resolvedParams = await params;
   const id = resolvedParams.id;
+  
+  //query supabase
+  const { data: item, error } = await supabase
+    .from("items")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-  const items = [
-    { id: 1, name: "Vintage Lamp", category: "Furniture", price: 12, condition: "Good" },
-    { id: 2, name: "Gold Necklace", category: "Jewelry", price: 45, condition: "Excellent" },
-    { id: 3, name: "Denim Jacket", category: "Clothing", price: 25, condition: "Fair" },
-  ];
-
-  const item = items.find((item) => item.id === Number(id));
-
-  if (!item) {
-    return <div className="p-10 text-center">Item not found (ID: {id})</div>;
+  if (error || !item) {
+    return <div className="p-10 text-center">Item not found</div>;
   }
 
   return (
@@ -29,7 +31,7 @@ export default async function ItemDetailPage({
         </Link>
 
         <h1 className="text-3xl font-bold mt-6 mb-6 text-center">
-          {item.name}
+          {item.item_name}
         </h1>
 
         <div className="space-y-3 text-gray-300">
