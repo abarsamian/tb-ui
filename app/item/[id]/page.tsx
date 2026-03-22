@@ -1,5 +1,7 @@
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+
 
 export default async function ItemDetailPage({
   params,
@@ -10,6 +12,18 @@ export default async function ItemDetailPage({
   //wait for extracted item id and set it to variable
   const resolvedParams = await params;
   const id = resolvedParams.id;
+
+
+  const handleDelete = async () => {
+  "use server";
+
+  await supabase
+    .from("items")
+    .delete()
+    .eq("id", id);
+
+  redirect("/mycollection");
+};
   
   //query supabase
   const { data: item, error } = await supabase
@@ -36,7 +50,7 @@ export default async function ItemDetailPage({
 
         <div className="space-y-3 text-gray-300">
           <p><span className="font-semibold text-white">Category:</span> {item.category}</p>
-          <p><span className="font-semibold text-white">Price:</span> ${item.price}</p>
+          <p><span className="font-semibold text-white">Price:</span> ${item.price_paid}</p>
           <p><span className="font-semibold text-white">Condition:</span> {item.condition}</p>
           <img
           src="/icons/item.png"
@@ -52,13 +66,14 @@ export default async function ItemDetailPage({
           >
             Edit
           </Link>
-
-          <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
-            Delete
-          </button>
-        </div>
+              <form action={handleDelete}>
+              <button className="bg-red-600 px-4 py-2 rounded">
+              Delete
+              </button>
+              </form>
 
       </div>
+    </div>
     </div>
   );
 }

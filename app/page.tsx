@@ -19,19 +19,8 @@ export default async function Home() {
         </p>
 
 <div className="flex justify-center gap-4">
-      <Link
-      href="/signin"
-      className="bg-gray-700 px-6 py-2 rounded-md hover:bg-purple-700 transition"
-      >
-      Sign In
-      </Link>
-
-      <Link
-      href="/register"
-      className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-300 transition"
-      >
-      Register
-      </Link>
+<Link href="/signin"className="bg-gray-700 px-6 py-2 rounded-md hover:bg-purple-700 transition">Sign In</Link>
+<Link href="/register"className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-300 transition">Register</Link>
 </div>
       </section>
 
