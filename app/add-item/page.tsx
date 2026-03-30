@@ -29,14 +29,29 @@ export default function AddItemPage(){
 
     setError("");
 
+      const {
+      data: { user },
+      } = await supabase.auth.getUser();
+
+            //guard for only users to add item
+      if (!user) {
+        setError("You must be signed in to add an item.");
+        return;
+      }
+
   const {data, error: insertError} = await supabase.from("items").insert([
   {
+    user_id: user?.id,
     item_name: itemName,
     category: category,
     price_paid: Number(price),
     condition: condition,
+    user_notes: userNotes,
   },
+
+
 ]);
+
 
       if (insertError) {
     console.log("Insert error:", insertError);

@@ -24,17 +24,14 @@ export default async function Home() {
 </div>
       </section>
 
-      {/* IMAGE PLACEHOLDER SECTION */}
-      <section className="bg-gray-950 py-20 flex justify-center">
-        <div className="w-96 h-64 bg-gray-700 flex items-center justify-center rounded-lg">
-                      <img
-          src="/icons/item.png"
-          alt="item icon"
-          className="w-6 h-6 opacity-70"
-            />
-          <span className="text-gray-600">Image Placeholder</span>
-        </div>
-      </section>
+<section className="bg-gray-950 py-20 flex justify-center">
+  <img
+    src="/images/antique.jpg"
+    alt="Thrift items"
+    className="w-400 h-96 object-cover rounded-lg shadow-lg"
+  />
+
+</section>
 
       {/* REVIEWS SECTION */}
       <section className="bg-black py-20 px-6">

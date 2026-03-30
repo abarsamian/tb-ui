@@ -16,6 +16,17 @@ const[filterCategory, setFilterCategory] = useState("");
   //fetch items from Supabase when page loads
   useEffect(() => {
     const fetchItems = async () => {
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        console.error("No user signed in");
+        setItems([]);
+        return;
+      }
+
       const { data, error } = await supabase
         .from("items")
         .select("*");
@@ -79,13 +90,6 @@ const[filterCategory, setFilterCategory] = useState("");
         {filteredItems.map((item) => (
        <div key={item.id} className="border border-gray-300 rounded-lg p-4">
 
-            {/*this is where i added the icon placeholders for the cards*/}
-        <div className="flex items-start gap-3">
-            <img
-          src="/icons/item.png"
-          alt="item icon"
-          className="w-6 h-6 opacity-70"
-            />
 
           <div>
             <strong className="block">{item.item_name}</strong>
@@ -96,7 +100,7 @@ const[filterCategory, setFilterCategory] = useState("");
           </div>
         </div>
 
-      </div>
+
         ))}
         
       </div>

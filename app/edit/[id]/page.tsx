@@ -12,14 +12,26 @@ const { id } = use(params);
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [condition, setCondition] = useState("");
+  const [notes, setUserNotes] = useState("");
 
   //Load existing item
   useEffect(() => {
     const fetchItem = async () => {
+
+      const {
+      data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+      return;
+      }
+
+
       const { data } = await supabase
         .from("items")
         .select("*")
         .eq("id", id)
+        .eq("user_id", user.id)
         .single();
 
       if (data) {
@@ -27,6 +39,7 @@ const { id } = use(params);
         setCategory(data.category);
         setPrice(data.price_paid);
         setCondition(data.condition);
+        setUserNotes(data.user_notes);
       }
     };
 
@@ -35,6 +48,15 @@ const { id } = use(params);
 
   //UPDATE function
   const handleUpdate = async () => {
+
+        const {
+        data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+        return;
+        }
+
     const { error } = await supabase
       .from("items")
       .update({
@@ -42,8 +64,10 @@ const { id } = use(params);
         category: category,
         price_paid: Number(price),
         condition: condition,
+        user_notes: notes,
       })
-      .eq("id", id);
+      .eq("id", id)
+      .eq("user_id", user.id);
 
     if (error) {
       console.error(error);
@@ -102,7 +126,17 @@ const { id } = use(params);
                       className="border p-2 w-full rounded"
                       placeholder="Condition"
                       />
-                      </div>
+                    
+
+                       <input
+                        value={notes}
+                      onChange={(e) => setUserNotes(e.target.value)}
+                      className="border p-2 w-full rounded"
+                      placeholder="Notes"
+                      />
+
+                        </div>
+                      
 
               <div className="mt-4 flex justify-center">
               <button onClick={handleUpdate}className="bg-blue-600 text-white p-2 rounded w-64 hover:bg-purple-700">Update Item</button>

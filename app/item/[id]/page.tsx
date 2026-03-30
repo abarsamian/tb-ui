@@ -1,38 +1,75 @@
+"use client"
+import { use, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { redirect } from "next/navigation";
+
 import Link from "next/link";
 
 
-export default async function ItemDetailPage({
+export default function ItemDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
 
-  //wait for extracted item id and set it to variable
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
+  const { id } = use(params);
 
+  const [item, setItem] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        window.location.href = "/signin";
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("items")
+        .select("*")
+        .eq("id", id)
+        .eq("user_id", user.id)
+        .single();
+
+      if (error || !data) {
+        setItem(null);
+      } else {
+        setItem(data);
+      }
+
+      setLoading(false);
+    };
+
+    fetchItem();
+  }, [id]);
 
   const handleDelete = async () => {
-  "use server";
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  await supabase
-    .from("items")
-    .delete()
-    .eq("id", id);
+    if (!user) {
+      window.location.href = "/signin";
+      return;
+    }
 
-  redirect("/mycollection");
-};
-  
-  //query supabase
-  const { data: item, error } = await supabase
-    .from("items")
-    .select("*")
-    .eq("id", id)
-    .single();
+    await supabase
+      .from("items")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id);
 
-  if (error || !item) {
+    window.location.href = "/mycollection";
+  };
+
+  if (loading) {
+    return <div className="p-10 text-center">Loading...</div>;
+  }
+
+  if (!item) {
     return <div className="p-10 text-center">Item not found</div>;
   }
 
@@ -52,11 +89,7 @@ export default async function ItemDetailPage({
           <p><span className="font-semibold text-white">Category:</span> {item.category}</p>
           <p><span className="font-semibold text-white">Price:</span> ${item.price_paid}</p>
           <p><span className="font-semibold text-white">Condition:</span> {item.condition}</p>
-          <img
-          src="/icons/item.png"
-          alt="item icon"
-          className="w-6 h-6 opacity-70"
-            />
+          <p><span className="font-semibold text-white">Notes:</span> {item.user_notes}</p>
         </div>
 
         <div className="flex justify-center gap-4 mt-8">
