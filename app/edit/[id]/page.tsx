@@ -96,7 +96,7 @@ const { id } = use(params);
                       <input
                       value={itemName}
                       onChange={(e) => setItemName(e.target.value)}
-                      className="border p-2 w-full rounded"
+                      className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
                       placeholder="Item Name"
                       />
 
@@ -116,14 +116,14 @@ const { id } = use(params);
                       <input
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="border p-2 w-full rounded"
+                      className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
                       placeholder="Price"
                       />
 
                       <input
                         value={condition}
                       onChange={(e) => setCondition(e.target.value)}
-                      className="border p-2 w-full rounded"
+                      className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
                       placeholder="Condition"
                       />
                     
@@ -131,7 +131,7 @@ const { id } = use(params);
                        <input
                         value={notes}
                       onChange={(e) => setUserNotes(e.target.value)}
-                      className="border p-2 w-full rounded"
+                      className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
                       placeholder="Notes"
                       />
 

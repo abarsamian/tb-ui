@@ -1,9 +1,38 @@
+"use client";
+
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
+export default function Home() {
 
+ const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (!error) {
+        setUser(data.user);
+      }
+    };
+
+    getUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   return (
     <div className="text-white">
@@ -18,20 +47,54 @@ export default async function Home() {
           Your personal Thrifting Vault!
         </p>
 
-<div className="flex justify-center gap-4">
-<Link href="/signin"className="bg-gray-700 px-6 py-2 rounded-md hover:bg-purple-700 transition">Sign In</Link>
-<Link href="/register"className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-300 transition">Register</Link>
-</div>
+        <div className="flex justify-center gap-4 flex-wrap">
+          {!user ? (
+            <>
+              <Link
+                href="/signin"
+                className="bg-gray-700 px-6 py-2 rounded-md hover:bg-purple-700 transition"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/register"
+                className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-300 transition"
+              >
+                Register
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/mycollection"
+                className="bg-gray-700 px-6 py-2 rounded-md hover:bg-purple-700 transition"
+              >
+                My Collection
+              </Link>
+              <Link
+                href="/add-item"
+                className="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-300 transition"
+              >
+                Add Item
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 px-6 py-2 rounded-md hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
       </section>
 
-<section className="bg-gray-950 py-20 flex justify-center">
-  <img
-    src="/images/antique.jpg"
-    alt="Thrift items"
-    className="w-400 h-96 object-cover rounded-lg shadow-lg"
-  />
-
-</section>
+      <section className="bg-gray-950 py-20 flex justify-center">
+        <img
+          src="/images/antique.jpg"
+          alt="Thrift items"
+          className="w-400 h-96 object-cover rounded-lg shadow-lg"
+        />
+      </section>
 
       {/* REVIEWS SECTION */}
       <section className="bg-black py-20 px-6">

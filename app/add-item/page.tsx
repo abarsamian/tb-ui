@@ -1,8 +1,22 @@
 "use client";
 import { supabase } from "@/lib/supabase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddItemPage(){
+    const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+
+      if (!data.user) {
+        router.push("/signin");
+      }
+    };
+
+    checkUser();
+  }, [router]);
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
@@ -79,7 +93,7 @@ export default function AddItemPage(){
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
           placeholder="Item Name"
-          className="border p-2 w-full rounded"
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
 
         <select
@@ -99,21 +113,21 @@ export default function AddItemPage(){
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           placeholder="Price Paid"
-          className="border p-2 w-full rounded"
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
 
                 <input
           value={condition}
           onChange={(e) => setCondition(e.target.value)}
           placeholder="Condition"
-          className="border p-2 w-full rounded"
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
 
                 <textarea
             value={userNotes}
             onChange={(e) => setUserNotes(e.target.value)}
             placeholder="User Notes"
-            className="border p-2 w-full rounded"
+            className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
             rows={3}
         />
 

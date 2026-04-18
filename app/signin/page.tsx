@@ -22,14 +22,14 @@ export default function SignInPage() {
 
   return (
     <div className="flex justify-center mt-20">
-      <div className="bg-gray-900 p-8 rounded-xl w-80">
+      <div className="bg-gray-900 border border-gray-700 p-8 rounded-xl w-80 shadow-lg">
         <h1 className="text-xl font-bold mb-4 text-center">Sign In</h1>
 
         <input
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 w-full mb-3"
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
 
         <input
@@ -37,7 +37,7 @@ export default function SignInPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 w-full mb-3"
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
 
         <button

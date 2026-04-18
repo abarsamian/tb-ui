@@ -3,9 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 export default function MyCollection() {
+  const router = useRouter();
 
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+
+      if (!data.user) {
+        router.push("/signin");
+      }
+    };
+
+    checkUser();
+  }, [router]);
   //STATE STUFF
   //store items from database
 const [items, setItems] = useState<any[]>([]);
@@ -56,7 +69,7 @@ const[filterCategory, setFilterCategory] = useState("");
   return (
     <div className="container mx-auto mt-10 p-4 justify-items-center">
       <h1 className="text-3xl font-bold">My Collection</h1>
-      <p className="mt-4 text-gray-600">
+      <p className="mt-4 text-gray-300">
         Your thrift finds will appear here.
       </p>
 
@@ -66,7 +79,7 @@ const[filterCategory, setFilterCategory] = useState("");
     placeholder="Search items..."
     value={search}
     onChange={(e) => setSearch(e.target.value)}
-    className="border p-2 rounded w-full"
+    className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
   />
 
   <select
@@ -88,12 +101,12 @@ const[filterCategory, setFilterCategory] = useState("");
       {/* List of Items */}
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredItems.map((item) => (
-       <div key={item.id} className="border border-gray-300 rounded-lg p-4">
+       <div key={item.id} className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-md">
 
 
           <div>
             <strong className="block">{item.item_name}</strong>
-            <p className="text-sm text-gray-500">{item.category}</p>
+            <p className="text-sm text-gray-300">{item.category}</p>
           <Link href={`/item/${item.id}`} className="bg-gray-700 text-xs text-white px-2 py-1 rounded-xs hover:bg-purple-700 inline-block">
             View Details
           </Link>
