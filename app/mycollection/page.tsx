@@ -93,6 +93,7 @@ const[filterCategory, setFilterCategory] = useState("");
     <option>Jewelry</option>
     <option>Clothing</option>
     <option>Accessories</option>
+   <option>Books</option>
   </select>
 
 </div>

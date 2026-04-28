@@ -111,6 +111,7 @@ const { id } = use(params);
                       <option>Clothing</option>
                       <option>Accessories</option>
                       <option>Miscellaneous</option>
+                     <option>Books</option>
                       </select>
 
                       <input

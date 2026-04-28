@@ -107,6 +107,7 @@ export default function AddItemPage(){
           <option>Clothing</option>
           <option>Accessories</option>
           <option>Miscellaneous</option>
+        <option>Books</option>
         </select>
 
         <input
@@ -120,8 +121,7 @@ export default function AddItemPage(){
           value={condition}
           onChange={(e) => setCondition(e.target.value)}
           placeholder="Condition"
-          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"
-        />
+          className="w-full rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 p-2 focus:outline-none focus:ring-2 focus:ring-purple-600"        />
 
                 <textarea
             value={userNotes}
